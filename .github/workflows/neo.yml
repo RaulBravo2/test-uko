@@ -1,0 +1,58 @@
+name: Neo
+
+# Neo responde cuando lo mencionás con "@neo" en:
+#  - el cuerpo/título de un issue nuevo (o al asignarlo)
+#  - un comentario de issue o de PR
+#  - una review de PR
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened, assigned, labeled]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  neo:
+    # Guard: solo arranca el runner si hay un "@neo" en el evento.
+    # (Ahorra minutos de Actions; la action igual revalida el trigger_phrase.)
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@neo')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@neo')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@neo')) ||
+      (github.event_name == 'issues' && (contains(github.event.issue.body, '@neo') || contains(github.event.issue.title, '@neo')))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # Genera un token efímero a partir de TU GitHub App (Neo).
+      # Así los PRs/comentarios aparecen como "neo" y no como github-actions[bot].
+      - name: Generate Neo App token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.NEO_APP_ID }}
+          private-key: ${{ secrets.NEO_APP_PRIVATE_KEY }}
+
+      - name: Run Neo
+        uses: anthropics/claude-code-action@v1
+        with:
+          # Token de tu suscripción (claude setup-token), NO una API key.
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Actuar como la App Neo (no como el bot por defecto de Actions).
+          github_token: ${{ steps.app-token.outputs.token }}
+          # Palabra de invocación.
+          trigger_phrase: "@neo"
+          # Opcional: argumentos extra para el CLI de Claude.
+          # claude_args: "--max-turns 15"
