@@ -54,5 +54,8 @@ jobs:
           github_token: ${{ steps.app-token.outputs.token }}
           # Palabra de invocación.
           trigger_phrase: "@neo"
+          # DIAGNÓSTICO TEMPORAL: muestra el error textual de Claude en los logs.
+          # ⚠️ Quitar una vez resuelto el problema de auth (puede exponer datos en el log).
+          show_full_output: true
           # Opcional: argumentos extra para el CLI de Claude.
           # claude_args: "--max-turns 15"
