@@ -40,7 +40,7 @@ const { filters } = toRefs(state);
 
     <Button @click="$router.push('/users/create')">
       <Icon name="Plus" :strokeWidth="2" :size="18" class="me-2" />
-      Add User
+      Nuevo Cliente
     </Button>
   </div>
 
