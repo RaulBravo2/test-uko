@@ -38,10 +38,17 @@ const { filters } = toRefs(state);
       <UserStatusInput />
     </div>
 
-    <Button @click="$router.push('/users/create')">
-      <Icon name="Plus" :strokeWidth="2" :size="18" class="me-2" />
-      Add User
-    </Button>
+    <div class="flex items-center gap-3">
+      <Button variant="outline" @click="$router.push('/users/create')">
+        <Icon name="UserPlus" :strokeWidth="2" :size="18" class="me-2" />
+        New Client
+      </Button>
+
+      <Button @click="$router.push('/users/create')">
+        <Icon name="Plus" :strokeWidth="2" :size="18" class="me-2" />
+        Add User
+      </Button>
+    </div>
   </div>
 
   <!-- USER TABLE SECTION -->
