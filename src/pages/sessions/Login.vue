@@ -50,6 +50,10 @@ const onSubmit = handleSubmit(async (values) => {
     <div class="hidden items-center p-20 text-white lg:flex xl:px-40">
       <div>
         <img src="/logos/uko.png" class="mb-10 h-10" alt="Uko" />
+        <img
+          src="/images/condorito.png"
+          class="mb-7 h-32 lg:h-40 xl:h-48"
+          alt="Condorito" />
         <h4 class="mb-7 text-4xl font-bold">Hi, Welcome Back!</h4>
         <h5 class="text-xl font-semibold">You are in a good company</h5>
         <p class="mt-2 text-sm leading-relaxed">
